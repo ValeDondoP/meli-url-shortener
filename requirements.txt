@@ -1,0 +1,8 @@
+fastapi == 0.70.1
+uvicorn == 0.16.0
+debugpy
+pytest
+pydantic[email]
+pymongo
+redis
+motor == 2.5.1
