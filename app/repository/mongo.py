@@ -21,8 +21,25 @@ class MongoDBClient:
         document = collection.find_one({"_id": key})
         return document
 
-    def update_document(self, collection_name, query, update):
-        pass
+    def update_document(self, key: str, enabled: bool ,collection_name: str="urls"):
+        collection = self.db[collection_name]
+        _filter = {'_id': key}
+        update = {'enabled': enabled}
+        result = collection.update_one(_filter, {'$set': update})
+        if result.modified_count > 0:
+            return True
+
+        return False
+
+    def is_document_url_enabled(self, key:str, collection_name: str="urls"):
+        collection = self.db[collection_name]
+        document = collection.find_one({"_id": key})
+
+        if document and "enabled" in document:
+            return document["enabled"]
+
+        return False
+
 
     def delete_document(self, collection_name, query):
         pass

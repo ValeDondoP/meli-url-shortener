@@ -13,3 +13,10 @@ class URL(BaseModel):
     created_at = Field(default=datetime.now())
     visit_count: int = 0
     last_visit: datetime = Field(default=datetime.now)
+
+
+class URLInput(BaseModel):
+    original_url: HttpUrl
+
+class ToggleURL(BaseModel):
+    enabled: bool
