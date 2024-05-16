@@ -11,7 +11,7 @@ class MongoDBClient:
             "_id": url_hash,
             "original_url": original_url,
             "enabled": True,
-            "visited": 0
+            "visit_count": 0
         }
         collection = self.db[collection_name]
         collection.insert_one(document)
@@ -21,19 +21,18 @@ class MongoDBClient:
         document = collection.find_one({"_id": key})
         return document
 
-    def update_document(self, key: str, enabled: bool ,collection_name: str="urls"):
+    def update_document(self, key: str, update_fields: dict ,collection_name: str="urls") -> bool:
         collection = self.db[collection_name]
         _filter = {'_id': key}
-        update = {'enabled': enabled}
-        result = collection.update_one(_filter, {'$set': update})
+
+        result = collection.update_one(_filter, {'$set': update_fields})
         if result.modified_count > 0:
             return True
 
         return False
 
-    def is_document_url_enabled(self, key:str, collection_name: str="urls"):
-        collection = self.db[collection_name]
-        document = collection.find_one({"_id": key})
+    def is_document_url_enabled(self, key: str) -> bool:
+        document = self.get_document_by_key(key=key)
 
         if document and "enabled" in document:
             return document["enabled"]
