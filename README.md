@@ -40,5 +40,17 @@ el decorador Depends indica a FastAPI que debe llamar a la función get_url_shor
     url_shortener_service: URLShortenerService = Depends(get_url_shortener_service)
     ):
 ```
-Con este endpoint se puede con la url corta redirigir a la original. Este endpoint tiene como parámetros url_hash y url_shortener_service que es un servicio que nos va ayudar a obtener a url original desde la base de datos
+Con este endpoint se puede con la url corta redirigir a la original. Este endpoint tiene como parámetros url_hash y url_shortener_service que es un servicio que nos va ayudar a obtener a url original desde la base de datos.
+
+##### PUT
+```python
+    @router.put("/update_url_hash/{url_hash}")
+    async def update_short_url(
+    url_hash:str,
+    url_input: URLInputUpdate,
+    url_shortener_service: URLShortenerService = Depends(get_url_shortener_service)
+    ):
+```
+
+Con este endpoint se puede hacer un update de la url de destino. Este endpoint tiene como parámetros url_hash, url_shortener_service y URLInputUpdate que es un base model cuyo schema pide las componentes de una url como el procotolo, dominio,etc por lo que este endpoint puede cambiar cualquier componente de la url de destino.
 
