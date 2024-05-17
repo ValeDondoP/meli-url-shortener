@@ -53,4 +53,11 @@ Con este endpoint se puede con la url corta redirigir a la original. Este endpoi
 ```
 
 Con este endpoint se puede hacer un update de la url de destino. Este endpoint tiene como parámetros url_hash, url_shortener_service y URLInputUpdate que es un base model cuyo schema pide las componentes de una url como el procotolo, dominio,etc por lo que este endpoint puede cambiar cualquier componente de la url de destino.
+#### Diseño de la base de datos
+Para esta implementación no implementé una tabla usuarios por la simplicidad del sistema, pero se puede haber definido para el caso en que queramos que el sistema sea privado o que al hacer la request podamos guardar información del usuario.
+
+Schemas de mis tablas:
+    <img width="681" alt="Captura de Pantalla 2024-05-17 a la(s) 17 58 36" src="https://github.com/ValeDondoP/meli-url-shortener/assets/80803286/65f961da-9fa4-46de-80f5-fd6634dba0ed">
+
+
 
