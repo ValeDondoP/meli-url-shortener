@@ -57,7 +57,9 @@ Con este endpoint se puede hacer un update de la url de destino. Este endpoint t
 Para esta implementación no implementé una tabla usuarios por la simplicidad del sistema, pero se puede haber definido para el caso en que queramos que el sistema sea privado o que al hacer la request podamos guardar información del usuario.
 
 Schemas de mis tablas:
-    <img width="681" alt="Captura de Pantalla 2024-05-17 a la(s) 17 58 36" src="https://github.com/ValeDondoP/meli-url-shortener/assets/80803286/65f961da-9fa4-46de-80f5-fd6634dba0ed">
+   <img width="659" alt="Captura de Pantalla 2024-05-17 a la(s) 18 04 45" src="https://github.com/ValeDondoP/meli-url-shortener/assets/80803286/d2cc6037-238b-4aab-8c88-244f472c2a52">
 
+
+En este diseño consideré que las URL se pueden desactivar y también que se pueda saber el número de veces que se ha hecho click en la URL
 
 
