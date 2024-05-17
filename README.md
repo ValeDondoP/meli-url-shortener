@@ -24,6 +24,12 @@ Para construir nuestra arquitectura de acortador de URL primero definimos los  p
 create_shorten_url(
     url_input: URLInput,
     url_shortener_service: URLShortenerService = Depends(get_url_shortener_service)
-    ) puedes explicar lo de inyeccionde dependencaias
+    ) 
 ```
+Este endpoint se encarga de crear en base de datos y retornar la url corta.
+Los parámetros son url_input que es de donde obtendremos nuestra url original y que es del tipo URLInput que es un BaseModel que es una clase proporcionada por Pydantic, una biblioteca de validación de datos, que se utiliza para definir y validar datos de entrada y salida de manera estructurada. Por otro lado, tenemos  
+el decorador Depends indica a FastAPI que debe llamar a la función get_url_shortener_service para obtener la instancia de URLShortenerService.
+
+
+##### GET
 
