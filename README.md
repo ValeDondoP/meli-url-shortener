@@ -60,6 +60,16 @@ Schemas de mis tablas:
    <img width="659" alt="Captura de Pantalla 2024-05-17 a la(s) 18 04 45" src="https://github.com/ValeDondoP/meli-url-shortener/assets/80803286/d2cc6037-238b-4aab-8c88-244f472c2a52">
 
 
-En este diseño consideré que las URL se pueden desactivar y también que se pueda saber el número de veces que se ha hecho click en la URL
+En este diseño consideré que las URL se pueden desactivar y también que se pueda saber el número de veces que se ha hecho click en la URL.
+
+Para la elección de la base de datos elegí MongoDb. Esto ya que no existen relaciones  entre las tablas exceptuando por user_id y además como nuestro sistema es read-heavy se esperan millones de request a nuestro sistema y una db no relacional es más fácil de escalar. En adición, en mongodb se puede guardar la información como clave-valor lo que hacer más rápido de acceder.
+
+#### Diseño del sistema
+Presento el siguiente diagrama como solución al proyecto
+<img width="713" alt="Captura de Pantalla 2024-05-17 a la(s) 19 36 43" src="https://github.com/ValeDondoP/meli-url-shortener/assets/80803286/25042378-9af1-4894-ae56-9488016fb954">
+
+
+
+Para mi sistema usé un patrón de capas y patrón repository en donde definí una carpeta repository donde iba a tener definidas dos clases para el acceso a los datos. En este caso como mencioné anteriormente use Mongodb como base de datos y también usaré Redis para usarlo como caché (acceso de datos en memoria).
 
 
