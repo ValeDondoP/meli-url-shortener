@@ -19,13 +19,18 @@ class MongoDBClient:
     def get_document_by_key(self, key: str ,collection_name: str = "urls") -> Optional[Dict[str, Any]]:
         collection = self.db[collection_name]
         document = collection.find_one({"_id": key})
-        return document
+        return document if document is not None else None
 
-    def update_document(self, key: str, update_fields: dict ,collection_name: str="urls") -> bool:
+    def update_document(self, key: str, update_fields: dict ,increment: bool = False ,collection_name: str="urls") -> bool:
         collection = self.db[collection_name]
         _filter = {'_id': key}
 
-        result = collection.update_one(_filter, {'$set': update_fields})
+        if increment:
+            update_op = {'$inc': update_fields}
+        else:
+            update_op = {'$set': update_fields}
+
+        result = collection.update_one(_filter, update_op)
         if result.modified_count > 0:
             return True
 

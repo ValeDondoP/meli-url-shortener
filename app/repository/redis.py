@@ -34,3 +34,15 @@ class RedisCache:
 
             # update redis
             self.redis_client.set(key, updated_value)
+
+    def increment_field(self, key:str, field: str):
+        value = self.redis_client.get(key)
+
+        if value:
+            data = json.loads(value)
+
+            if field in data:
+                data[field] = data[field] + 1
+
+                updated_value = json.dumps(data)
+                self.redis_client.set(key, updated_value)

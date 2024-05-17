@@ -2,6 +2,8 @@ fastapi == 0.70.1
 uvicorn == 0.16.0
 debugpy
 pytest
+pytest-asyncio
+httpx
 pydantic[email]
 pymongo
 redis
