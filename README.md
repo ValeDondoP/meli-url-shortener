@@ -87,6 +87,7 @@ Métricas de rendimiento: Analizar el rendimiento de la aplicación, como el tie
 
 #### Implementación de url shortener
 Para mi sistema usé un patrón de capas y patrón repository en donde definí una carpeta repository donde iba a tener definidas dos clases para el acceso a los datos. En este caso como mencioné anteriormente usé Mongodb como base de datos y también usé Redis para usarlo como caché (acceso de datos en memoria).
+Aqui va un estracto de las clases que implementan MongoDb y Redis:
 ```python
 class MongoDBClient:
     def __init__(self, host: str = 'mongodb', port: int = 27017, db_name: str = 'urldatabase') -> None:
@@ -115,4 +116,28 @@ class RedisCache:
             return value.decode('utf-8')
         return None
 ```
+
+Por otro lado tenemos el archivo services.py que es donde va a estar nuestra clase URLShortenService que se va a encargar de todos los requerimientos relacionados a la url como acortar la url, obtener la url original para entregarsélo al controlador,etc
+
+``` python
+class URLShortenerService:
+    def __init__(self, db_repository, cache_repository):
+        self.db_repository = db_repository
+        self.cache_repository = cache_repository
+```
+Acá se tiene el método de la clase hash_string, que es el encargado de hacer el hash. En esta implementación vamos a usar el algorimto de hash MD5 que convierte datos en un identificador unico de 128 bits. En el código, url.encode() convierte la URL a bytes, y hashlib.md5(url.encode()) crea un objeto de hash MD5 a partir de esos bytes. Luego, md5_hash.hexdigest() convierte el hash en una cadena hexadecimal de 32 caracteres. Esto genera un identificador único para la url
+```python
+ def hash_string(self, url: str) -> str:
+        # Generate the shortened URL using MD5 hash
+        url_hash = md5(url.encode()).hexdigest()
+        return url_hash
+```
+Luego tenemos el siguiente método:
+```python
+def create_short_url(self, original_url: str) -> str:
+        url_hash = self.hash_string(url=original_url)[:7]
+        ...
+```
+Este método llama a la función que genera el hash y toma los primero 7 caracteres
+Luego como se explica anteriormente, se pregunta si esta en el caché y si no esta busca en la base de datos.
 
