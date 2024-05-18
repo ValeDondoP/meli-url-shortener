@@ -1,5 +1,6 @@
 import json
 
+from typing import Optional, Dict
 from hashlib import md5
 from app.models.url import URLInputUpdate
 
@@ -32,11 +33,16 @@ class URLShortenerService:
         return url
 
     def hash_string(self, url: str) -> str:
-        # Generate the shortened URL using MD5 hash
+        """
+        genera el hash usando algoritmo de hash md5
+        """
         url_hash = md5(url.encode()).hexdigest()
         return url_hash
 
-    def get_data_by_hash(self, url_hash: str):
+    def get_data_by_hash(self, url_hash: str) -> Optional[Dict]:
+        """
+        Obtiene los datos asociados a un hash de URL dado si no lo encuentra devuelve None
+        """
         document_json = self.cache_repository.get_data_by_hash(key=url_hash)
         if document_json:
             document = json.loads(document_json)

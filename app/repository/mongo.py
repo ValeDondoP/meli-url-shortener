@@ -44,6 +44,3 @@ class MongoDBClient:
 
         return False
 
-
-    def delete_document(self, collection_name, query):
-        pass
