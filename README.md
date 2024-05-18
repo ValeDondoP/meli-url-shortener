@@ -69,6 +69,24 @@ Presento el siguiente diagrama como solución al proyecto
 <img width="713" alt="Captura de Pantalla 2024-05-17 a la(s) 19 36 43" src="https://github.com/ValeDondoP/meli-url-shortener/assets/80803286/25042378-9af1-4894-ae56-9488016fb954">
 
 
+La idea es para dado el número de request usar un balanceador de carga que distribuya de forma equitativa la request a las replicas del server. Para crear una short url se consulta primero si el hash generado ya existe en el Cache, si esta retorna el hash, si no busca si esta en la base de datos.
+
+Por otro lado para el sistema de monitoreo:
+Primero, configuraría el registro de eventos importantes en la aplicación. Esto incluiría:
+
+Creación de URLs cortas: Registrar cada vez que un usuario crea una nueva URL corta, incluyendo detalles como la URL original, el hash generado, y la dirección IP del cliente.
+Clics en URLs cortas: Registrar cada vez que un usuario hace clic en una URL corta, incluyendo el hash de la URL, la URL original, y la dirección IP del cliente.
+Luego utilizaría una herramienta de monitoreo de logs como Datadog o New Relic para recolectar, almacenar y analizar estos logs.
+
+Finalmente haría dashboards en Datadog o New Relic para visualizar las métricas y logs recolectados y podría medir:
+Número de URLs creadas: Mostrar la cantidad de nuevas URLs cortas creadas en un período de tiempo.
+Clics en URLs: Monitorear la cantidad de clics recibidos por las URLs cortas.
+Errores y excepciones: Monitorear cualquier error o excepción que ocurra en la aplicación.
+Métricas de rendimiento: Analizar el rendimiento de la aplicación, como el tiempo de respuesta de las solicitudes.
+
+
+
+
 
 Para mi sistema usé un patrón de capas y patrón repository en donde definí una carpeta repository donde iba a tener definidas dos clases para el acceso a los datos. En este caso como mencioné anteriormente use Mongodb como base de datos y también usaré Redis para usarlo como caché (acceso de datos en memoria).
 
