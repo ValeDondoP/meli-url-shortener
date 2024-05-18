@@ -3,16 +3,12 @@ import os
 from datetime import datetime
 from fastapi import APIRouter, Depends, status, HTTPException
 from app.dependencies import get_url_shortener_service
-from app.repository.mongo import MongoDBClient
-from app.repository.redis import RedisCache
 from app.shortener.services import URLShortenerService
 from app.models.url import ToggleURL, URLInput, URLInputUpdate
 from fastapi.responses import RedirectResponse
 
 
 router = APIRouter()
-mongo_db_client = MongoDBClient()
-redis_cache = RedisCache()
 
 log_directory = "logs"
 log_filename = "redirect.log"
@@ -34,7 +30,9 @@ async def create_shorten_url(
 
     url_hash = url_shortener_service.create_short_url(original_url=original_url)
 
-    return {"short_url": f"http://localhost:8000/{url_hash}"}
+    base_url = os.environ["BASE_URL"]
+
+    return {"short_url": f"{base_url}/{url_hash}"}
 
 
 @router.get("/shorten/{url_hash}")
