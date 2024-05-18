@@ -85,9 +85,34 @@ Errores y excepciones: Monitorear cualquier error o excepción que ocurra en la 
 Métricas de rendimiento: Analizar el rendimiento de la aplicación, como el tiempo de respuesta de las solicitudes.
 
 
+#### Implementación de url shortener
+Para mi sistema usé un patrón de capas y patrón repository en donde definí una carpeta repository donde iba a tener definidas dos clases para el acceso a los datos. En este caso como mencioné anteriormente usé Mongodb como base de datos y también usé Redis para usarlo como caché (acceso de datos en memoria).
+```python
+class MongoDBClient:
+    def __init__(self, host: str = 'mongodb', port: int = 27017, db_name: str = 'urldatabase') -> None:
+        self.client: MongoClient = MongoClient(host, port)
+        self.db = self.client[db_name]
 
+    def insert_document(self, url_hash: str, original_url: str, collection_name: str = "urls") -> None:
+        document =  {
+            "_id": url_hash,
+            "original_url": original_url,
+            "enabled": True,
+            "visit_count": 0
+        }
+        collection = self.db[collection_name]
+        collection.insert_one(document)
+```
+```python
+class RedisCache:
+    def __init__(self, host: str = 'redis', port: int = 6379, db: int = 0, expire_time: Optional[int] = None):
+        self.redis_client = redis.StrictRedis(host=host, port=port, db=db)
+        self.expire_time = expire_time
 
-
-Para mi sistema usé un patrón de capas y patrón repository en donde definí una carpeta repository donde iba a tener definidas dos clases para el acceso a los datos. En este caso como mencioné anteriormente use Mongodb como base de datos y también usaré Redis para usarlo como caché (acceso de datos en memoria).
-
+    def get_data_by_hash(self, key: str) -> Optional[Any]:
+        value = self.redis_client.get(key)
+        if value:
+            return value.decode('utf-8')
+        return None
+```
 
