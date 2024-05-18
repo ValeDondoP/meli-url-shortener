@@ -76,7 +76,8 @@ Primero, configuraría el registro de eventos importantes en la aplicación. Est
 
 Creación de URLs cortas: Registrar cada vez que un usuario crea una nueva URL corta, incluyendo detalles como la URL original, el hash generado, y la dirección IP del cliente.
 Clics en URLs cortas: Registrar cada vez que un usuario hace clic en una URL corta, incluyendo el hash de la URL, la URL original, y la dirección IP del cliente.
-Luego utilizaría una herramienta de monitoreo de logs como Datadog o New Relic para recolectar, almacenar y analizar estos logs.
+
+Esto lo haría usando logging de python y utilizar log.info y esto se almacena en un file system hdfs y  que las herramientas de monitoreo de logs como Datadog o New Relic para recolectar, almacenar y analizar estos logs desde ahí.
 
 Finalmente haría dashboards en Datadog o New Relic para visualizar las métricas y logs recolectados y podría medir:
 Número de URLs creadas: Mostrar la cantidad de nuevas URLs cortas creadas en un período de tiempo.
@@ -140,4 +141,15 @@ def create_short_url(self, original_url: str) -> str:
 ```
 Este método llama a la función que genera el hash y toma los primero 7 caracteres
 Luego como se explica anteriormente, se pregunta si esta en el caché y si no esta busca en la base de datos.
+
+Finalmente tenemos los siguientes método:
+```python
+def update_url_hash(self, url_hash: str, url_input: URLInputUpdate) -> bool:
+```
+Este método se encarga de actualizar las componentes de la url. Primero genera la url a partir de las componentes y luego actualiza la información en la base de datos para el hash asociado.
+
+```python
+increment_visit_count(self, url_hash: str) -> bool
+```
+Este método se encarga de incrementar y guardar en base de datos cuando se hace click a una url corta.
 
