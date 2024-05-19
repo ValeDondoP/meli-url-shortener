@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from app.routers.url import router as url_router
 
 app = FastAPI()
-# Configurar repositorios
 
 
 app.include_router(url_router)
