@@ -1,4 +1,4 @@
-# Desafío Meli acortador de URL
+# Desafío acortador de URL
 Para este proyecto ocupamos Docker Compose pues simplifica enormemente la configuración, gestión y escalabilidad de aplicaciones.
 
 ##### Cómo correr Docker de forma local
